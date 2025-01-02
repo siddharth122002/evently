@@ -1,7 +1,7 @@
 import { Webhook } from 'svix'
 import { headers } from 'next/headers'
 import { clerkClient, WebhookEvent } from '@clerk/nextjs/server'
-import { createUser } from '@/lib/actions/user.actions'
+import { createUser, deleteUser, updateUser } from '@/lib/actions/user.actions'
 import { NextResponse } from 'next/server'
 
 export async function POST(req: Request) {
@@ -49,13 +49,10 @@ export async function POST(req: Request) {
 
   // Do something with payload
   // For this guide, log payload to console
-  const { id } = evt.data
+  // Get the ID and type
+  const { id } = evt.data;
   const eventType = evt.type;
-
-  console.log(`yoyo honey pajiReceived webhook with ID ${id} and event type of ${eventType}`)
-  console.log('Webhook payload:', body);
-
-
+ 
   if(eventType === 'user.created') {
     const { id, email_addresses, image_url, first_name, last_name, username } = evt.data;
 
@@ -71,8 +68,7 @@ export async function POST(req: Request) {
     const newUser = await createUser(user);
 
     if(newUser) {
-      const clerk = await clerkClient();
-      await clerk.users.updateUserMetadata(id, {
+      await clerkClient.users.updateUserMetadata(id, {
         publicMetadata: {
           userId: newUser._id
         }
@@ -82,6 +78,28 @@ export async function POST(req: Request) {
     return NextResponse.json({ message: 'OK', user: newUser })
   }
 
+  if (eventType === 'user.updated') {
+    const {id, image_url, first_name, last_name, username } = evt.data
 
-  return new Response('Webhook received', { status: 200 })
+    const user = {
+      firstName: first_name!,
+      lastName: last_name!,
+      username: username!,
+      photo: image_url,
+    }
+
+    const updatedUser = await updateUser(id, user)
+
+    return NextResponse.json({ message: 'OK', user: updatedUser })
+  }
+
+  if (eventType === 'user.deleted') {
+    const { id } = evt.data
+
+    const deletedUser = await deleteUser(id!)
+
+    return NextResponse.json({ message: 'OK', user: deletedUser })
+  }
+ 
+  return new Response('', { status: 200 })
 }
