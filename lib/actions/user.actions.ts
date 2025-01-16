@@ -7,16 +7,13 @@ import { User } from "../database/models/user.model";
 import Event from '@/lib/database/models/event.model'
 import Order from "../database/models/order.model";
 
-export const createUser = async(user:CreateUserParams)=>{
+export async function createUser(user:CreateUserParams){
     try{
-        await connectToDb();
-        
-        const newUser = await User.create(user);
-        
-        return JSON.parse(JSON.stringify(newUser));
-
+      await connectToDb();
+      const newUser = await User.create(user);
+      return JSON.parse(JSON.stringify(newUser));
     } catch(error){
-        throw new Error("error while creating a new User");
+      throw new Error("cant find")
     }
 }
 
