@@ -56,7 +56,7 @@ export type createEprops = {
 };
 
 export type SearchParamProps = {
-  params: Promise<{ id: string }>;
+  params: { id: string };
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
