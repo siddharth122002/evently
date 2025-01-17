@@ -15,16 +15,16 @@ export type UpdateUserParams = {
 };
 
 export type eventProps = {
-  eventTitle: string;
-  category: string;
-  description: string;
-  imageUrl: string;
-  location: string;
-  startDateTime: Date;
-  endDateTime: Date;
-  price: string;
-  isFree: boolean;
-  url: string;
+  eventTitle?: string;
+  category?: string;
+  description?: string;
+  imageUrl?: string;
+  location?: string;
+  startDateTime?: Date;
+  endDateTime?: Date;
+  price?: string;
+  isFree?: boolean;
+  url?: string;
 };
 
 export type IEvent = {

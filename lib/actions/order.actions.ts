@@ -158,7 +158,7 @@ export async function getOrdersByEvent({
           _id: 1,
           totalAmount: 1,
           createdAt: 1,
-          eventTitle: "$event.title",
+          eventTitle: "$event.eventTitle",
           eventId: "$event._id",
           buyer: {
             $concat: ["$buyer.firstName", " ", "$buyer.lastName"],

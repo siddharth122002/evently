@@ -11,11 +11,12 @@ type IOrderItem = {
   buyer: string;
 };
 const Orders = async ({ searchParams }: SearchParamProps) => {
-  const eventId = (searchParams?.eventId as string) || "";
-  const searchText = (searchParams?.query as string) || "";
+  const para = await searchParams;
+  const eventId = (para.eventId as string) || "";
+  const searchText = (para?.query as string) || "";
 
   const orders = await getOrdersByEvent({ eventId, searchString: searchText });
-
+  // console.log(orders);
   return (
     <>
       <section className=" bg-primary-50 bg-dotted-pattern bg-cover bg-center py-5 md:py-10">

@@ -39,18 +39,26 @@ const eventDefaultValues = {
 };
 
 const formSchema = z.object({
-  eventTitle: z.string().min(2, {
-    message: "Event Title must be at least 2 characters.",
+  eventTitle: z
+    .string()
+    .min(2, { message: "Event Title must be at least 2 characters." })
+    .nonempty("Event Title is required."),
+  category: z.string().nonempty("Category is required."),
+  description: z
+    .string()
+    .min(10, { message: "Description must be at least 10 characters." })
+    .nonempty("Description is required."),
+  imageUrl: z.string().url("Add image").nonempty("Image URL is required."),
+  location: z.string().nonempty("Location is required."),
+  startDateTime: z.date({
+    invalid_type_error: "Start DateTime must be a valid date.",
   }),
-  category: z.string(),
-  description: z.string().min(10),
-  imageUrl: z.string(),
-  location: z.string(),
-  startDateTime: z.date(),
-  endDateTime: z.date(),
-  price: z.string(),
+  endDateTime: z.date({
+    invalid_type_error: "End DateTime must be a valid date.",
+  }),
+  price: z.string().nonempty("Price is required."),
   isFree: z.boolean(),
-  url: z.string().url(),
+  url: z.string().url("URL must be a valid URL.").nonempty("URL is required."),
 });
 
 type EventFormProps = {
@@ -191,7 +199,7 @@ export default function EventForm({
             control={form.control}
             name="imageUrl"
             render={({ field }) => (
-              <FormItem className="w-full bg-gray-50 h-[54px] placeholder-gray-500 mt-2 rounded-md px-4 py-3 text-[16px] border-none focus:ring-0 focus:outline-none">
+              <FormItem className="w-full bg-gray-50 h-[60px] placeholder-gray-500 rounded-md px-4  text-[16px] border-none focus:ring-0 focus:outline-none">
                 <FormControl>
                   <FileUploader onFileChange={field.onChange} />
                 </FormControl>

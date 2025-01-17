@@ -15,7 +15,6 @@ type CardProps = {
 const Card = async ({ event, hasOrderLink, hidePrice }: CardProps) => {
   const { sessionClaims } = await auth();
   const userId = sessionClaims?.userId as string;
-
   const isEventCreator = userId === event.organizer._id.toString();
 
   return (
@@ -41,7 +40,6 @@ const Card = async ({ event, hasOrderLink, hidePrice }: CardProps) => {
           <DeleteConfirmation eventId={event._id} />
         </div>
       )}
-
       <div className="flex min-h-[230px] flex-col gap-3 p-5 md:gap-4">
         {!hidePrice && (
           <div className="flex gap-2">
