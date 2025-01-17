@@ -6,7 +6,16 @@ import { CreateUserParams, UpdateUserParams } from "@/types";
 import { User } from "../database/models/user.model";
 import Event from "@/lib/database/models/event.model";
 import Order from "../database/models/order.model";
+import { auth } from "@clerk/nextjs/server";
 
+export async function getCurrent() {
+  try {
+    const { sessionClaims } = await auth();
+    return sessionClaims.userId as string;
+  } catch (error) {
+    throw new Error("cant find");
+  }
+}
 export async function createUser(user: CreateUserParams) {
   try {
     await connectToDb();
