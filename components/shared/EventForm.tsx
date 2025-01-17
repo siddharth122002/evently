@@ -97,6 +97,10 @@ export default function EventForm({
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    if (!userId) {
+      console.log("---------------", userId);
+      return;
+    }
     if (type === "Create") {
       try {
         const newEvent = await createEvent({
