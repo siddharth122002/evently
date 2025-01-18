@@ -22,7 +22,7 @@ export async function createUser(user: CreateUserParams) {
     const newUser = await User.create(user);
     return JSON.parse(JSON.stringify(newUser));
   } catch (error) {
-    throw new Error("cant find");
+    throw error;
   }
 }
 
